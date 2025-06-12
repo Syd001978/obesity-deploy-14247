@@ -17,10 +17,18 @@ label_mapping = {
     6: "Obesity Type III"
 }
 
-# Title & Description
-st.markdown("<h1 style='text-align: center;'>💡 Are We Obesity?</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Input your data to predict your weight category.</p>", unsafe_allow_html=True)
-
+# Title & Description with margin
+st.markdown("""
+    <style>
+    .title-container {
+        margin-bottom: 25px;
+    }
+    </style>
+    <div class="title-container">
+        <h1 style='text-align: center;'>💡 Are We Obesity?</h1>
+        <p style='text-align: center;'>Input your data to predict your weight category.</p>
+    </div>
+""", unsafe_allow_html=True)
 
 # Two-column layout for form
 col1, col2 = st.columns(2)
@@ -35,23 +43,11 @@ with col2:
 
 fam_history = st.radio("Family history of obesity?", ["Yes", "No"], horizontal=True)
 
-
-# Green button styling
+# Remove custom button styling (use default Streamlit style)
 st.markdown("""
     <style>
     div.stButton > button:first-child {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 0.6em 1em;
-        font-weight: bold;
-        border-radius: 6px;
-        width: 100%;
         margin-top: 20px;
-    }
-    div.stButton > button:hover {
-        background-color: #218838;
-        color: white;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -69,10 +65,7 @@ if st.button("🔍 Predict My Weight Category"):
     prediction = model.predict(input_scaled)
     result_label = label_mapping.get(int(prediction[0]), "Unknown")
     
-    # Calculate BMI
-    bmi = weight / (height_m ** 2)
-    
     # Display results in simple format
     st.markdown("---")
-    st.markdown("## Prediction Result")
-    st.markdown(f"**Category**  \n{result_label}")
+    st.markdown("Your Category is.. ")
+    st.markdown(f"## \n{result_label}")
