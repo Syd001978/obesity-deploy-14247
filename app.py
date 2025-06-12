@@ -17,7 +17,7 @@ label_mapping = {
     6: "Obesity Type III"
 }
 
-# Title & Description with margin
+
 st.markdown("""
     <style>
     .title-container {
@@ -35,7 +35,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Two-column layout for form
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -65,4 +65,4 @@ if st.button("🔍 Predict My Weight Category"):
     st.markdown("---")
     st.markdown("### Predict My Weight Category")
     st.markdown("Your Category is..")
-    st.markdown(f"<h2 style='margin-top:10px;'>{result_label}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2>{result_label}</h2>", unsafe_allow_html=True)
