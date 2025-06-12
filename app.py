@@ -24,7 +24,6 @@ st.markdown("<p style='text-align: center;'>Input your data to predict your weig
 # Form panel with border and background
 st.markdown("""
 <div style="border: 1px solid #4F4F4F; padding: 20px; border-radius: 10px; background-color: #1e1e1e;">
-    <h5 style='color:white;'>🧍‍♂️ Personal Data</h5>
 """, unsafe_allow_html=True)
 
 # Two-column layout for form
@@ -63,7 +62,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Predict button (now outside the container)
+# Predict button
 if st.button("🔍 Predict My Weight Category"):
     # Encode input
     gender_encoded = 1 if gender == "Male" else 0
@@ -76,10 +75,10 @@ if st.button("🔍 Predict My Weight Category"):
     prediction = model.predict(input_scaled)
     result_label = label_mapping.get(int(prediction[0]), "Unknown")
     
-    # Result display
-    st.markdown(f"""
-    <div style="border: 1px solid #4F4F4F; padding: 20px; border-radius: 10px; background-color: #1e1e1e; margin-top: 20px;">
-        <h5 style='color:white;'>Your Weight Category</h5>
-        <p style='font-size: 20px; color: white;'>{result_label}</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Calculate BMI
+    bmi = weight / (height_m ** 2)
+    
+    # Display results in simple format
+    st.markdown("---")
+    st.markdown("## Prediction Result")
+    st.markdown(f"**Category**  \n{result_label}")
