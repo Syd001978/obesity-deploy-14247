@@ -21,10 +21,6 @@ label_mapping = {
 st.markdown("<h1 style='text-align: center;'>💡 Are We Obesity?</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Input your data to predict your weight category.</p>", unsafe_allow_html=True)
 
-# Form panel with border and background
-st.markdown("""
-<div style="border: 1px solid #4F4F4F; padding: 20px; border-radius: 10px; background-color: #1e1e1e;">
-""", unsafe_allow_html=True)
 
 # Two-column layout for form
 col1, col2 = st.columns(2)
@@ -39,8 +35,6 @@ with col2:
 
 fam_history = st.radio("Family history of obesity?", ["Yes", "No"], horizontal=True)
 
-# Close the panel
-st.markdown("</div>", unsafe_allow_html=True)
 
 # Green button styling
 st.markdown("""
