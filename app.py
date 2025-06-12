@@ -2,12 +2,11 @@ import streamlit as st
 import joblib
 import numpy as np
 
-# Load model dan preprocessing
+# Load model 
 model = joblib.load("model_xgb.pkl")
 scaler = joblib.load("scaler.pkl")
 selected_features = joblib.load("selected_features.pkl")
 
-# Mapping label hasil prediksi
 label_mapping = {
     0: "Insufficient Weight",
     1: "Normal Weight",
@@ -18,39 +17,57 @@ label_mapping = {
     6: "Obesity Type III"
 }
 
-st.title("💡 Prediksi Obesitas dengan XGBoost")
-st.markdown("Masukkan data pribadi Anda untuk mengetahui tingkat risiko obesitas.")
+# Title
+st.title("💡 Are We Obesity?")
+st.markdown("Input your data to predict.")
 
-# Border menggunakan markdown HTML
+# Panel/Form input dalam bordered container
 st.markdown("""
 <div style="border: 1px solid #4F4F4F; padding: 20px; border-radius: 10px; background-color: #1e1e1e;">
-    <h5 style='color:white;'>🧍‍♂️ Data Diri & Fisik</h5>
+    <h5 style='color:white;'>🧍‍♂️ Personal Data & Physical Info</h5>
 """, unsafe_allow_html=True)
 
-# Dua kolom
 col1, col2 = st.columns(2)
 
 with col1:
-    gender = st.selectbox("Jenis Kelamin (Gender)", ["Male", "Female"])
-    age = st.slider("Umur (Age)", 14, 65, 25)
+    gender = st.selectbox("Gender", ["Male", "Female"])
+    age = st.slider("Age", 14, 65, 25)
 
 with col2:
-    height = st.number_input("Tinggi (Height, dalam meter)", min_value=1.0, max_value=2.5, value=1.70, step=0.01)
-    weight = st.number_input("Berat Badan (Weight, dalam kg)", min_value=30.0, max_value=200.0, value=70.0, step=0.1)
+    height = st.number_input("Height (in meters)", min_value=1.0, max_value=2.5, value=1.70, step=0.01)
+    weight = st.number_input("Weight (in kg)", min_value=30.0, max_value=200.0, value=70.0, step=0.1)
 
-fam_history = st.selectbox("Riwayat keluarga dengan berat badan berlebih?", ["Yes", "No"])
+fam_history = st.selectbox("Family history of obesity?", ["Yes", "No"])
 
-# Tutup div
+# Tutup border container
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Encoding
+# Encode input
 gender_encoded = 1 if gender == "Male" else 0
 fam_history_encoded = 1 if fam_history == "Yes" else 0
 input_data = np.array([[age, gender_encoded, height, weight, fam_history_encoded]])
 input_scaled = scaler.transform(input_data)
 
-# Prediksi
-if st.button("🔍 Prediksi"):
+# Tombol prediksi berwarna hijau
+button_style = """
+    <style>
+    div.stButton > button:first-child {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 0.6em 1em;
+        font-weight: bold;
+        border-radius: 6px;
+    }
+    div.stButton > button:hover {
+        background-color: #218838;
+        color: white;
+    }
+    </style>
+"""
+st.markdown(button_style, unsafe_allow_html=True)
+
+if st.button("🔍 Let's Find Out"):
     prediction = model.predict(input_scaled)
-    result_label = label_mapping.get(int(prediction[0]), "Tidak diketahui")
-    st.success(f"Hasil Prediksi: **{result_label}**")
+    result_label = label_mapping.get(int(prediction[0]), "Unknown")
+    st.success(f"You are: **{result_label}**")
