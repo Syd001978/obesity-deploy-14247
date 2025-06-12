@@ -40,5 +40,5 @@ input_scaled = scaler.transform(input_data)
 # Prediksi
 if st.button("Prediksi"):
     prediction = model.predict(input_scaled)
-    result_label = label_mapping.get(prediction[0], "Tidak diketahui")
+    result_label = label_mapping.get(int(prediction[0]), "Tidak diketahui")
     st.success(f"Hasil Prediksi: {result_label}")
