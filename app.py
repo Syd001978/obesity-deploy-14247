@@ -23,6 +23,11 @@ st.markdown("""
     .title-container {
         margin-bottom: 25px;
     }
+    .result-text {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
     </style>
     <div class="title-container">
         <h1 style='text-align: center;'>💡 Are We Obesity?</h1>
@@ -38,34 +43,26 @@ with col1:
     weight = st.number_input("Weight (kg)", min_value=30.0, max_value=200.0, value=74.0, step=0.1)
 
 with col2:
-    age = st.number_input("Age", min_value=14, max_value=65, value=22, step=1)
+    age = st.number_input("Age", min_value=3, max_value=98, value=22, step=1)
     height = st.number_input("Height (cm)", min_value=100.0, max_value=250.0, value=174.0, step=0.1)
 
 fam_history = st.radio("Family history of obesity?", ["Yes", "No"], horizontal=True)
-
-# Remove custom button styling (use default Streamlit style)
-st.markdown("""
-    <style>
-    div.stButton > button:first-child {
-        margin-top: 20px;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 # Predict button
 if st.button("🔍 Predict My Weight Category"):
     # Encode input
     gender_encoded = 1 if gender == "Male" else 0
     fam_history_encoded = 1 if fam_history == "Yes" else 0
-    height_m = height / 100  # Convert cm to meters
+    height_m = height / 100  
     input_data = np.array([[age, gender_encoded, height_m, weight, fam_history_encoded]])
     input_scaled = scaler.transform(input_data)
     
-    # Make prediction
+    
     prediction = model.predict(input_scaled)
     result_label = label_mapping.get(int(prediction[0]), "Unknown")
     
-    # Display results in simple format
+    
     st.markdown("---")
-    st.markdown("Your Category is.. ")
-    st.markdown(f"## \n{result_label}")
+    st.markdown("### Predict My Weight Category")
+    st.markdown("Your Category is..")
+    st.markdown(f'<p class="result-text">{result_label}</p>', unsafe_allow_html=True)
