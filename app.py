@@ -63,6 +63,5 @@ if st.button("🔍 Predict My Weight Category"):
     
     
     st.markdown("---")
-    st.markdown("### Predict My Weight Category")
     st.markdown("Your Category is..")
     st.markdown(f"<h2>{result_label}</h2>", unsafe_allow_html=True)
